@@ -1,0 +1,6 @@
+# use server-side apply to find all the winmesh VMs
+# and change them to the following
+  # template:
+  #   metadata:
+  #     annotations:
+  #       sidecar.istio.io/inject: 'true'
