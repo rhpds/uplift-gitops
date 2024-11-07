@@ -1,0 +1,8 @@
+# Default values for rosa_uplift lab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: istio-system
+# add clouds here like aws, azure, gcp, rosa, etc.
+# and add updates to the templates/ to support them
+cloud: rosa
