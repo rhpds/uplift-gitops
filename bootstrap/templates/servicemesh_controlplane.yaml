@@ -24,10 +24,10 @@ spec:
       mtls: true
     dataPlane:
       mtls: true
-{{ if eq .Values.cloud "rosa" -}}
-    identity: # for ROSA
+{{- if eq .Values.cloud "rosa" }}
+    identity:
       type: ThirdParty
-{{ end -}}
+{{- end }}
   telemetry:
     type: Istiod
   tracing:

@@ -3,6 +3,10 @@
 # Declare variables to be passed into your templates.
 
 namespace: istio-system
+
 # add clouds here like aws, azure, gcp, rosa, etc.
 # and add updates to the templates/ to support them
 cloud: rosa
+
+members:
+  - windowsmesh
