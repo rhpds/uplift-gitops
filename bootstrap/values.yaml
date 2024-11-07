@@ -4,6 +4,7 @@
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace: windowsmesh
+windows_networking_namespace: windowsnetworking
 
 ingressgatway_url_path: https://localhost
 # add clouds here like aws, azure, gcp, rosa, etc.
