@@ -3,7 +3,7 @@ apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
   name: istio-installation
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.istio_cp_namespace }}
 spec:
   addons:
     grafana:
