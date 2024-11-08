@@ -1,9 +1,9 @@
-kind: ServiceMeshMemberRoll
-apiVersion: maistra.io/v1
-metadata:
-  name: default
-  namespace: {{ .Values.istio_cp_namespace }}
-
-spec:
-  members:
-{{ toYaml .Values.members | indent 4 }}
+# kind: ServiceMeshMemberRoll
+# apiVersion: maistra.io/v1
+# metadata:
+#   name: default
+#   namespace: {{ .Values.istio_cp_namespace }}
+#
+# spec:
+#   members:
+# {{ toYaml .Values.members | indent 4 }}
