@@ -26,8 +26,18 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
+{% if .Values.ossm_vms_sidecar_inject == "true" %}
+      annotations:
+        sidecar.istio.io/inject: "true"
+{% endif %}
       labels:
-        env: webapp
+        env: winmesh
+{% if .Values.ossm_vms_service_discovery == "true" %}
+{{ .Values.ossm_vms_service_discovery_label | indent 8 }}
+{% endif %}
+{% if .Values.ossm_vms_label_versions == "true" %}
+        version: v1
+{% endif %}
     spec:
       domain:
         clock:
