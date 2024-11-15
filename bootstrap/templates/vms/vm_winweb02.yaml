@@ -43,7 +43,7 @@ spec:
         clock:
           timer:
             hpet:
-              present: "false"
+              present: false
             hyperv: {}
             pit:
               tickPolicy: delay
@@ -85,7 +85,7 @@ spec:
             vapic: {}
             vpindex: {}
           smm:
-            enabled: "true"
+            enabled: true
         firmware:
           bootloader:
             efi: {}

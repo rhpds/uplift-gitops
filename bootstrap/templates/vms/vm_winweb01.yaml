@@ -85,7 +85,7 @@ spec:
             vapic: {}
             vpindex: {}
           smm:
-            enabled: "true"
+            enabled: true
         firmware:
           bootloader:
             efi: {}
