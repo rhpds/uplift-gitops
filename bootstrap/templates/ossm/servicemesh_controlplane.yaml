@@ -8,6 +8,7 @@ metadata:
   name: istio-installation
   namespace: {{ .Values.istio_cp_namespace }}
 spec:
+  version: v2.6
   addons:
     grafana:
       enabled: true
@@ -35,15 +36,24 @@ spec:
     type: Istiod
   tracing:
     type: None
-  version: v2.6
-  istio:
-    global:
-      disablePolicyChecks: false
-      proxy:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 500m
-            memory: 128Mi
+  runtime:
+    components:
+      pilot:
+        deployment:
+          replicas: 2
+        pod:
+          affinity: {}
+        container:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+      grafana:
+        deployment: {}
+        pod: {}
+      kiali:
+        deployment: {}
+        pod: {}
