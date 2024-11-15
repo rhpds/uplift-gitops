@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-  name: istio-installation
+  name: default
   namespace: {{ .Values.istio_cp_namespace }}
 spec:
   version: v2.6
