@@ -1,12 +1,12 @@
----
-apiVersion: maistra.io/v1
-kind: ServiceMeshMember
-metadata:
-  name: default
-  namespace: {{ .Values.windows_mesh_namespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  controlPlaneRef:
-    name: istio-installation
-    namespace: {{ .Values.istio_cp_namespace }}
+# ---
+# apiVersion: maistra.io/v1
+# kind: ServiceMeshMember
+# metadata:
+#   name: default
+#   namespace: {{ .Values.windows_mesh_namespace }}
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "3"
+# spec:
+#   controlPlaneRef:
+#     name: istio-installation
+#     namespace: {{ .Values.istio_cp_namespace }}
