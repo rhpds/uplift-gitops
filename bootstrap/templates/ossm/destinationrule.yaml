@@ -8,6 +8,7 @@ metadata:
   namespace: windowsmesh
   labels:
     kiali_wizard: request_routing
+spec:
   host: winmesh.windowsmesh.svc.cluster.local
   subsets:
     - name: v1
