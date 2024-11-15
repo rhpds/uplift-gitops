@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: winmesh-gateway
-  namespace: {{ .Values.istio_cp_namespace }}
+  namespace: {{ .Values.istio_mesh_namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
