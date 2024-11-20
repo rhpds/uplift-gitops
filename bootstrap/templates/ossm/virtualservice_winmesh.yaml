@@ -11,8 +11,6 @@ metadata:
 spec:
   hosts:
     - '*.openshiftapps.com'
-  #  - >-
-  #    {{ (lookup "route.openshift.io/v1" "Route" "istio-system" "istio-ingressgateway").spec.host }}
   gateways:
     - windowsmesh/winmesh-gateway
   http:
