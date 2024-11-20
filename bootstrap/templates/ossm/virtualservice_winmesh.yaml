@@ -10,7 +10,7 @@ metadata:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - *.openshiftapps.com
+    - '*.openshiftapps.com'
   #  - >-
   #    {{ (lookup "route.openshift.io/v1" "Route" "istio-system" "istio-ingressgateway").spec.host }}
   gateways:
