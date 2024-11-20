@@ -30,7 +30,9 @@ spec:
         vm.kubevirt.io/flavor: small
         vm.kubevirt.io/os: centos9
         vm.kubevirt.io/workload: server
+        sidecar.istio.io/inject: "true"
       labels:
+        sidecar.istio.io/inject: "true"
         kubevirt.io/domain: database
         kubevirt.io/size: small
     spec:
