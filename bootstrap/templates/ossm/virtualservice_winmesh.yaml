@@ -10,8 +10,9 @@ metadata:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - >-
-      {{ (lookup "route.openshift.io/v1" "Route" "istio-system" "istio-ingressgateway").spec.host }}
+    - *.openshiftapps.com
+  #  - >-
+  #    {{ (lookup "route.openshift.io/v1" "Route" "istio-system" "istio-ingressgateway").spec.host }}
   gateways:
     - windowsmesh/winmesh-gateway
   http:
