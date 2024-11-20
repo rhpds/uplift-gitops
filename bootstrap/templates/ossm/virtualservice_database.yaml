@@ -10,16 +10,9 @@ metadata:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - '*'
-  gateways:
-    - windowsmesh/winmesh-gateway
+    - database.windowsmesh.svc.cluster.local
   http:
     - route:
         - destination:
-            host: winmesh.windowsmesh.svc.cluster.local
-            subset: v1
-          weight: 50
-        - destination:
-            host: winmesh.windowsmesh.svc.cluster.local
-            subset: v2
-          weight: 50
+            host: database.windowsmesh.svc.cluster.local
+          weight: 100
