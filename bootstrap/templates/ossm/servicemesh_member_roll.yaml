@@ -3,7 +3,8 @@ apiVersion: maistra.io/v1
 metadata:
   name: default
   namespace: {{ .Values.istio_cp_namespace }}
-
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   members:
 {{ toYaml .Values.members | indent 4 }}

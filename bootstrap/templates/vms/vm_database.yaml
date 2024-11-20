@@ -3,6 +3,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "4"
     app.openshift.io/connects-to: '[{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb02"},{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb01"}]'
   labels:
     app: database

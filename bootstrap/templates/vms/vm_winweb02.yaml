@@ -2,6 +2,8 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app: winweb02
     app.kubernetes.io/part-of: 3-Tier-App
