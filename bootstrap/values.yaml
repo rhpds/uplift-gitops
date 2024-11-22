@@ -21,3 +21,4 @@ cloud: rosa
 
 members:
   - windowsmesh
+  - user1-windowsmesh
