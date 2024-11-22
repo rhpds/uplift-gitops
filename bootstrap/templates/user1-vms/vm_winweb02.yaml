@@ -1,0 +1,113 @@
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  labels:
+    app: winweb02
+    app.kubernetes.io/part-of: 3-Tier-App
+    vm.kubevirt.io/template.revision: '1'
+    vm.kubevirt.io/template.version: v0.25.0
+  name: winweb02
+  namespace: user1-{{ .Values.windows_mesh_namespace }}
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      name: winweb02
+    spec:
+      source:
+        http:
+          url: {{ .Values.vms_image_url }}/winweb02.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 90Gi
+  running: {{ .Values.vms_start_vms }}
+  template:
+    metadata:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          holdApplicationUntilProxyStarts: true
+          proxyMetadata:
+            ISTIO_META_DNS_CAPTURE: 'false'
+            ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
+{{- end }}
+      labels:
+        sidecar.istio.io/inject: "true"
+        env: winmesh
+{{- if eq .Values.ossm_vms_service_discovery "true" }}
+{{ .Values.ossm_vms_service_discovery_label | indent 8 }}
+{{- end }}
+{{- if eq .Values.ossm_vms_label_versions "true" }}
+        version: v2
+{{- end }}
+    spec:
+      domain:
+        clock:
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+          utc: {}
+        cpu:
+          cores: 1
+          sockets: 2
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: sata
+            name: rootdisk
+          inputs:
+          - bus: usb
+            name: tablet
+            type: tablet
+          interfaces:
+          - masquerade: {}
+            model: e1000e
+            name: default
+        features:
+          acpi: {}
+          apic: {}
+          hyperv:
+            frequencies: {}
+            ipi: {}
+            relaxed: {}
+            reset: {}
+            runtime: {}
+            spinlocks:
+              spinlocks: 8191
+            synic: {}
+            synictimer:
+              direct: {}
+            tlbflush: {}
+            vapic: {}
+            vpindex: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        machine:
+          type: {{ .Values.vms_machine_type }}
+        resources:
+          requests:
+            memory: 6Gi
+      evictionStrategy: LiveMigrate
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 3600
+      volumes:
+      - dataVolume:
+          name: winweb02
+        name: rootdisk
