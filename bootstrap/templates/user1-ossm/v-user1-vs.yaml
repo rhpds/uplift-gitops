@@ -10,7 +10,7 @@ metadata:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - '*'
+    - 'user1-windowsmesh.svc.cluster.local'
   gateways:
     - user1-windowsmesh/winmesh-gateway
     - mesh
