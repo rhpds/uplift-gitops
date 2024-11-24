@@ -10,7 +10,6 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: gateway-patcher
       containers:
       - name: gateway-patch
         image: registry.access.redhat.com/ubi8/ubi-minimal:latest
