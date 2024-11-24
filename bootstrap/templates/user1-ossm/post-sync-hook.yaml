@@ -49,5 +49,5 @@ spec:
           oc patch gateway winmesh-gateway -n user1-windowsmesh --type=json \
             -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
           oc patch virtualservice winmesh -n user1-windowsmesh --type=json \
-            -p "[{\"op\": \"add\", \"path\": \"/spec/gateways/1/\", \"value\": [\"$ROUTE_HOST\"]}]"
+            -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
       restartPolicy: Never
