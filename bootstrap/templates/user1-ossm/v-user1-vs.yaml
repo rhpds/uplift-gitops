@@ -12,7 +12,6 @@ spec:
   hosts:
     - 'user1-windowsmesh.svc.cluster.local'
   gateways:
-    - '*'
     - mesh
   http:
     - route:
