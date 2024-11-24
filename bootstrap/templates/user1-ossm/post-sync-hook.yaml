@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: gateway-patch
-        image: registry.access.redhat.com/ubi8/ubi-minimal:latest
+        image: quay.io/agnosticd/ee-multicloud:v0.1.2
         command:
         - /bin/sh
         - -c
