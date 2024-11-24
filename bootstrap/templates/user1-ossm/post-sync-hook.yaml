@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.name }}-gateway-patch
+  name: user1-gateway-patch
   namespace: user1-windowsmesh
   annotations:
     argocd.argoproj.io/hook: PostSync
