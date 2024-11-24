@@ -12,7 +12,7 @@ metadata:
 spec:
   servers:
     - hosts:
-        - '*'
+        - 'https://istio-ingressgateway-istio-system.apps.rosa-p92hk.gkef.p1.openshiftapps.com'
       port:
         name: http
         number: 80
