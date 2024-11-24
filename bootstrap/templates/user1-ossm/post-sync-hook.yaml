@@ -1,0 +1,26 @@
+# templates/gateway-patch.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.name }}-gateway-patch
+  namespace: user1-windowsmesh
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: gateway-patcher
+      containers:
+      - name: gateway-patch
+        image: registry.access.redhat.com/ubi8/ubi-minimal:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          ROUTE_HOST=$(oc get route user1-route -n user1-windowsmesh -o jsonpath='{.spec.host}')
+          oc patch gateway gateway -n user1-windowsmesh --type=json \
+            -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
+          oc patch virtualservice winmesh -n user1-windowsmesh --type=json \
+            -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts/\", \"value\": [\"$ROUTE_HOST\"]}]"
+      restartPolicy: Never

@@ -10,7 +10,7 @@ metadata:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - user1-istio-system.apps.rosa-8w949.y97b.p1.openshiftapps.com
+    - '*'
   gateways:
     - user1-windowsmesh/winmesh-gateway
     - mesh

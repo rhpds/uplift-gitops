@@ -15,6 +15,6 @@ spec:
         protocol: HTTP
         name: http
       hosts:
-        - user1-istio-system.apps.rosa-8w949.y97b.p1.openshiftapps.com
+        - '*'
   selector:
     istio: ingressgateway
