@@ -44,7 +44,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          ROUTE_HOST=$(oc get route user1-route -n user1-windowsmesh -o jsonpath='{.spec.host}')
+          ROUTE_HOST=$(oc get route user1 -n istio-system -o jsonpath='{.spec.host}')
           oc patch gateway winmesh-gateway -n user1-windowsmesh --type=json \
             -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
           oc patch virtualservice winmesh -n user1-windowsmesh --type=json \
