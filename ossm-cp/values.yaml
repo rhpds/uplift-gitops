@@ -2,11 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-deployer:
-  domain: apps.rosa-qkr5j.w102.p1.openshiftapps.com
-  apiUrl: https://api.cluster.opentlc.com:6443
-
-num_users: 2
+user_number: 1
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh

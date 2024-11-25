@@ -1,0 +1,25 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: winmesh
+  namespace: user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    kiali_wizard: request_routing
+spec:
+  hosts:
+    - user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+  gateways:
+    - mesh
+  http:
+    - route:
+        - destination:
+            host: winmesh.user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            subset: v1
+          weight: 50
+        - destination:
+            host: winmesh.user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            subset: v2
+          weight: 50

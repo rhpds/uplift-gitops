@@ -1,15 +1,15 @@
 kind: DestinationRule
 apiVersion: networking.istio.io/v1beta1
 metadata:
+  name: winmesh
+  namespace: user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-  name: winmesh
-  namespace: windowsmesh
   labels:
     kiali_wizard: request_routing
 spec:
-  host: winmesh.windowsmesh.svc.cluster.local
+  host: winmesh.user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
   subsets:
     - name: v1
       labels:

@@ -1,6 +1,6 @@
 apiVersion: v2
-name: bootstrap-rosa-uplift
-description: A Helm chart for Kubernetes
+name: ossm-cp
+description: Assumes SMCP Operator 2.x installed
 
 # A chart can be either an 'application' or a 'library' chart.
 #

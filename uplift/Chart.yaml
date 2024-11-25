@@ -1,6 +1,6 @@
 apiVersion: v2
-name: bootstrap-rosa-uplift
-description: A Helm chart for Kubernetes
+name: uplift
+description: Install a User for Uplift and Shift Workshop
 
 # A chart can be either an 'application' or a 'library' chart.
 #

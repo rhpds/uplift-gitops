@@ -1,0 +1,36 @@
+# values.yaml
+maxUsers: 60
+
+---
+# templates/applicationset.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: multi-tenant-uplift
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix:
+        generators:
+          - ranges:
+              - start: 1
+                end: {{ .Values.maxUsers }}
+                count: {{ .Values.maxUsers }}
+  template:
+    metadata:
+      name: 'user-{{number}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/newgoliath/rosa_uplift.git
+        targetRevision: main
+        path: uplift
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'user-{{number}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

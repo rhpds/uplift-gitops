@@ -1,4 +1,4 @@
-# Uplift and Shift - Apps to Install Uplift Lab and Service Mesh Control Plane
+# Uplift and Shift - Installs Service Mesh Control Plane
 
 This repository contains a Helm chart designed for deploying the Service Mesh Control Plane installer on OpenShift.
 
@@ -6,8 +6,7 @@ This repository contains a Helm chart designed for deploying the Service Mesh Co
 
 When used with an ArgoCD Application, this Helm chart provides the following functionalities:
 
-1. **Creates the OSSM Control PLane**: Instantiates an OSSM Control Plane server based on the RHSSO Operator.
-1. **Creates the Uplift and Shift Lab**: For `num_users` users in separate namespaces.
+1. **Creates the OSSM Control Plane**: Instantiates an OSSM Control Plane server based on the RHSSO Operator.
 
 ## Usage
 

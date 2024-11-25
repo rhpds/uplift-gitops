@@ -1,9 +1,8 @@
----
-apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
+apiVersion: networking.istio.io/v1beta1
 metadata:
   name: winmesh-gateway
-  namespace: {{ .Values.windows_mesh_namespace }}
+  namespace: user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
@@ -11,11 +10,11 @@ metadata:
     kiali_wizard: request_routing
 spec:
   servers:
-    - hosts:
-        - 'istio-ingressgateway-istio-system.apps.rosa-p92hk.gkef.p1.openshiftapps.com'
-      port:
-        name: http
+    - port:
         number: 80
         protocol: HTTP
+        name: http
+      hosts:
+        - '*' # this will be replaced by the post-sync-hook
   selector:
     istio: ingressgateway

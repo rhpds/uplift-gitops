@@ -1,0 +1,560 @@
+{{- define "rosa_uplift.app" -}}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: user{{ .user_index }}-{{ .Values.windows_networking_namespace_base }}
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: user{{ .user_index }}
+  namespace: istio-system
+spec:
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  port:
+    targetPort: http2
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: database
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  labels:
+    kiali_wizard: request_routing
+spec:
+  hosts:
+    - database.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: database.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+          weight: 100
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: winmesh
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    kiali_wizard: request_routing
+spec:
+  host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+---
+kind: Gateway
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: winmesh-gateway
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    kiali_wizard: request_routing
+spec:
+  servers:
+    - port:
+        number: 80
+        protocol: HTTP
+        name: http
+      hosts:
+        - 'user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
+  selector:
+    istio: ingressgateway
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: route-job
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: route-job-user{{ .user_index }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: route-job
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: winmesh
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    kiali_wizard: request_routing
+spec:
+  hosts:
+    - 'user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
+  gateways:
+    - user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}/winmesh-gateway
+    - mesh
+  http:
+    - route:
+        - destination:
+            host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            subset: v1
+          weight: 50
+        - destination:
+            host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            subset: v2
+          weight: 50
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: loadmaker
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  # namespace: windowsmesh
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: loadmaker
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: loadmaker
+    spec:
+      containers:
+        - name: container
+          image: bunchjesse/loadtest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: REQUESTS_PER_SECOND
+              value: '50'
+            - name: DURATION
+              value: '10000'
+            - name: URL
+              # value: 'http://istio-ingressgateway-istio-system.apps.virt-cluster.vew1.p1.openshiftapps.com'
+              value: 'https://user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: user{{ .user_index }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  selector:
+    vm.kubevirt.io/name: database
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: winmesh
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  selector:
+    env: winmesh
+  ports:
+  - protocol: TCP
+    name: http
+    port: 80
+    targetPort: 80
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    app.openshift.io/connects-to: '[{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb02"},{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb01"}]'
+  labels:
+    app: database
+    app.kubernetes.io/part-of: 3-Tier-App
+  name: database
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      name: database
+    spec:
+      source:
+        http:
+          url: {{ .Values.vms_image_url }}/database.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 16Gi
+  running: {{ .Values.vms_start_vms }}
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: centos9
+        vm.kubevirt.io/workload: server
+        sidecar.istio.io/inject: "true"
+      labels:
+        sidecar.istio.io/inject: "true"
+        kubevirt.io/domain: database
+        kubevirt.io/size: small
+    spec:
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - masquerade: {}
+            model: virtio
+            name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        features:
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            bios: {}
+        machine:
+          type: {{ .Values.vms_machine_type }}
+        resources:
+          requests:
+            memory: 2Gi
+      evictionStrategy: LiveMigrate
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - dataVolume:
+          name: database
+        name: rootdisk
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  labels:
+    app: winweb01
+    app.kubernetes.io/part-of: 3-Tier-App
+    vm.kubevirt.io/template.revision: '1'
+    vm.kubevirt.io/template.version: v0.25.0
+  name: winweb01
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      name: winweb01
+    spec:
+      source:
+        http:
+          url: {{ .Values.vms_image_url }}/winweb01.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 90Gi
+  running: {{ .Values.vms_start_vms }}
+  template:
+    metadata:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          holdApplicationUntilProxyStarts: true
+          proxyMetadata:
+            ISTIO_META_DNS_CAPTURE: 'false'
+            ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
+{{- end }}
+      labels:
+        sidecar.istio.io/inject: "true"
+        env: winmesh
+{{- if eq .Values.ossm_vms_service_discovery "true" }}
+{{ .Values.ossm_vms_service_discovery_label | indent 8 }}
+{{- end }}
+{{- if eq .Values.ossm_vms_label_versions "true" }}
+        version: v1
+{{- end }}
+    spec:
+      domain:
+        clock:
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+          utc: {}
+        cpu:
+          cores: 1
+          sockets: 2
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: sata
+            name: rootdisk
+          inputs:
+          - bus: usb
+            name: tablet
+            type: tablet
+          interfaces:
+          - masquerade: {}
+            model: e1000e
+            name: default
+        features:
+          acpi: {}
+          apic: {}
+          hyperv:
+            frequencies: {}
+            ipi: {}
+            relaxed: {}
+            reset: {}
+            runtime: {}
+            spinlocks:
+              spinlocks: 8191
+            synic: {}
+            synictimer:
+              direct: {}
+            tlbflush: {}
+            vapic: {}
+            vpindex: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        machine:
+          type: {{ .Values.vms_machine_type }}
+        resources:
+          requests:
+            memory: 6Gi
+      # evictionStrategy: LiveMigrate
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 3600
+      volumes:
+      - dataVolume:
+          name: winweb01
+        name: rootdisk
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  labels:
+    app: winweb02
+    app.kubernetes.io/part-of: 3-Tier-App
+    vm.kubevirt.io/template.revision: '1'
+    vm.kubevirt.io/template.version: v0.25.0
+  name: winweb02
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      name: winweb02
+    spec:
+      source:
+        http:
+          url: {{ .Values.vms_image_url }}/winweb02.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 90Gi
+  running: {{ .Values.vms_start_vms }}
+  template:
+    metadata:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          holdApplicationUntilProxyStarts: true
+          proxyMetadata:
+            ISTIO_META_DNS_CAPTURE: 'false'
+            ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
+{{- end }}
+      labels:
+        sidecar.istio.io/inject: "true"
+        env: winmesh
+{{- if eq .Values.ossm_vms_service_discovery "true" }}
+{{ .Values.ossm_vms_service_discovery_label | indent 8 }}
+{{- end }}
+{{- if eq .Values.ossm_vms_label_versions "true" }}
+        version: v2
+{{- end }}
+    spec:
+      domain:
+        clock:
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+          utc: {}
+        cpu:
+          cores: 1
+          sockets: 2
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: sata
+            name: rootdisk
+          inputs:
+          - bus: usb
+            name: tablet
+            type: tablet
+          interfaces:
+          - masquerade: {}
+            model: e1000e
+            name: default
+        features:
+          acpi: {}
+          apic: {}
+          hyperv:
+            frequencies: {}
+            ipi: {}
+            relaxed: {}
+            reset: {}
+            runtime: {}
+            spinlocks:
+              spinlocks: 8191
+            synic: {}
+            synictimer:
+              direct: {}
+            tlbflush: {}
+            vapic: {}
+            vpindex: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        machine:
+          type: {{ .Values.vms_machine_type }}
+        resources:
+          requests:
+            memory: 6Gi
+      evictionStrategy: LiveMigrate
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 3600
+      volumes:
+      - dataVolume:
+          name: winweb02
+        name: rootdisk
+---
+# templates/gateway-patch.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: user{{ .user_index }}-gateway-patch
+  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    # argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: route-job
+      containers:
+      - name: gateway-patch
+        image: quay.io/agnosticd/ee-multicloud:v0.1.2
+        command:
+        - /bin/sh
+        - -c
+        - |
+          ROUTE_HOST=$(oc get route user{{ .user_index }} -n istio-system -o jsonpath='{.spec.host}')
+          echo $ROUTE_HOST
+
+          oc patch gateway winmesh-gateway -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+            --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
+          oc patch virtualservice winmesh -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+            --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
+      restartPolicy: Never
+{{- end -}}

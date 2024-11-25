@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}
+spec:
+  selector:
+    vm.kubevirt.io/name: database
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306

@@ -1,0 +1,44 @@
+# templates/applicationset.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: multi-tenant-uplift
+  namespace: openshift-gitops
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - app: ossm-cp
+            path: ossm-cp
+            dependsOn: ""
+            namespace: istio-system
+          - app: uplift
+            path: uplift
+            dependsOn: ossm-cp
+            namespace: "openshift-gitops"
+  template:
+    metadata:
+      name: {{`'{{.app}}'`}}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/newgoliath/rosa_uplift.git
+        targetRevision: userN
+        path: {{`'{{ .path }}'`}}
+        helm:
+         values: |
+           num_users: {{ .Values.num_users }}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: {{`'{{.namespace}}'`}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        managedNamespaceMetadata:
+          labels:
+            depends-on: {{`'{{.dependsOn}}'`}}

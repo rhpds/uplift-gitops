@@ -1,0 +1,5 @@
+{{- define "rosa_uplift.app" }}
+metadata:
+  name: user{{ .user_index }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}
+{{- end }}

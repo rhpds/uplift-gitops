@@ -5,14 +5,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: database
-  namespace: windowsmesh
+  namespace: user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}
   labels:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - database.windowsmesh.svc.cluster.local
+    - database.user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
   http:
     - route:
         - destination:
-            host: database.windowsmesh.svc.cluster.local
+            host: database.user{{ .Values.user_number }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
           weight: 100
