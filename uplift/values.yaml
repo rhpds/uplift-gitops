@@ -6,7 +6,7 @@ deployer:
   domain: apps.rosa-qkr5j.w102.p1.openshiftapps.com
   apiUrl: https://api.cluster.opentlc.com:6443
 
-num_users: 2
+num_users: 10
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
