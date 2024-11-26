@@ -530,33 +530,34 @@ spec:
       - dataVolume:
           name: winweb02
         name: rootdisk
----
-# templates/gateway-patch.yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: user{{ .user_index }}-gateway-patch
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    # argocd.argoproj.io/hook-delete-policy: HookSucceeded
-spec:
-  template:
-    spec:
-      serviceAccountName: route-job
-      containers:
-      - name: gateway-patch
-        image: quay.io/agnosticd/ee-multicloud:v0.1.2
-        command:
-        - /bin/sh
-        - -c
-        - |
-          ROUTE_HOST=$(oc get route user{{ .user_index }} -n istio-system -o jsonpath='{.spec.host}')
-          echo $ROUTE_HOST
 
-          oc patch gateway winmesh-gateway -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
-            --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
-          oc patch virtualservice winmesh -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
-            --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
-      restartPolicy: Never
+# ---
+# # templates/gateway-patch.yaml
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: user{{ .user_index }}-gateway-patch
+#   namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+#   annotations:
+#     argocd.argoproj.io/hook: PostSync
+#     # argocd.argoproj.io/hook-delete-policy: HookSucceeded
+# spec:
+#   template:
+#     spec:
+#       serviceAccountName: route-job
+#       containers:
+#       - name: gateway-patch
+#         image: quay.io/agnosticd/ee-multicloud:v0.1.2
+#         command:
+#         - /bin/sh
+#         - -c
+#         - |
+#           ROUTE_HOST=$(oc get route user{{ .user_index }} -n istio-system -o jsonpath='{.spec.host}')
+#           echo $ROUTE_HOST
+#
+#           oc patch gateway winmesh-gateway -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+#             --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
+#           oc patch virtualservice winmesh -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+#             --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
+#       restartPolicy: Never
 {{- end -}}
