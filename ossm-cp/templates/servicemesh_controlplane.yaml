@@ -40,7 +40,7 @@ spec:
     components:
       pilot:
         deployment:
-          replicas: 6
+          replicas: 3
         pod:
           affinity: {}
         container:
