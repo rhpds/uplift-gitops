@@ -31,7 +31,7 @@ spec:
           values: |
             user:
               count: {{ .Values.user.count }}
-              count: {{ .Values.user.base }}
+              base: {{ .Values.user.base }}
       destination:
         server: https://kubernetes.default.svc
         namespace: {{`'{{.namespace}}'`}}
