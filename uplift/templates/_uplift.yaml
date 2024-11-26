@@ -166,7 +166,7 @@ spec:
               protocol: TCP
           env:
             - name: REQUESTS_PER_SECOND
-              value: '50'
+              value: '2'
             - name: DURATION
               value: '10000'
             - name: URL
