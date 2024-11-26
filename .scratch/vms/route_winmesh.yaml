@@ -1,0 +1,15 @@
+# ---
+# apiVersion: route.openshift.io/v1
+# kind: Route
+# metadata:
+#   name: route-winmesh
+#   namespace: {{ .Values.windows_mesh_namespace }}
+# spec:
+#   to:
+#     kind: Service
+#     name: winmesh
+#   port:
+#     targetPort: 80
+#   tls:
+#     termination: edge
+#     insecureEdgeTerminationPolicy: Redirect
