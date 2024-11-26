@@ -1,4 +1,4 @@
-{{- $max_users := ( add ( int .Values.num_users ) 1 ) }}
+{{- $max_users := ( add ( int .Values.user.count ) 1 ) }}
 {{- range $user_index := untilStep 1 ( int $max_users ) 1 }}
 {{ template "rosa_uplift.app" (dict "Values" $.Values "user_index" $user_index) }}
 {{ end }}
