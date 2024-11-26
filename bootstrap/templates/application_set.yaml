@@ -32,9 +32,9 @@ spec:
             user:
               count: {{ .Values.user.count }}
               base: {{ .Values.user.base }}
-              deployer:
-                domain: {{ .Values.deployer.domain }}
-                apiUrl: {{ .Values.deployer.apiUrl }}
+            deployer:
+              domain: {{ .Values.deployer.domain }}
+              apiUrl: {{ .Values.deployer.apiUrl }}
       destination:
         server: https://kubernetes.default.svc
         namespace: {{`'{{.namespace}}'`}}
