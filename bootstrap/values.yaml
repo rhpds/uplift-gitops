@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 deployer:
-  domain: apps.rosa-qkr5j.w102.p1.openshiftapps.com
+  domain: apps.rosa-khchd.s84d.p1.openshiftapps.com
   apiUrl: https://api.cluster.opentlc.com:6443
 
 num_users: 20
