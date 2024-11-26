@@ -19,9 +19,6 @@ spec:
   gateways:
     openshiftRoute:
       enabled: false
-    ingress:
-      deployment:
-        replicas: 4
   policy:
     type: Istiod
   profiles:
