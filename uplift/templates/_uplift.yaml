@@ -148,7 +148,7 @@ metadata:
   namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
   # namespace: windowsmesh
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: loadmaker
