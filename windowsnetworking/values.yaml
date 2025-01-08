@@ -1,0 +1,23 @@
+# Default values for rosa_uplift lab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deployer:
+  domain: REPLACEME-OPENSHIFT_DOMAIN-uplift
+  apiUrl: https://api.cluster.opentlc.com:6443
+
+user:
+  count: 2
+  base: user
+
+istio_cp_namespace: istio-system
+windows_mesh_namespace_base: windowsmesh
+windows_networking_namespace_base: windowsnetworking
+vms_image_url: http://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt
+vms_start_vms: "true"
+vms_machine_type: q35
+
+ingressgatway_url_path: https://localhost
+# add clouds here like aws, azure, gcp, rosa, etc.
+# and add updates to the templates/ to support them
+cloud: rosa
