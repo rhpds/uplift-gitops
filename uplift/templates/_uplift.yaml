@@ -7,11 +7,6 @@ metadata:
   labels:
     app: winmesh
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: user{{ .user_index }}-{{ .Values.windows_networking_namespace_base }}
----
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
