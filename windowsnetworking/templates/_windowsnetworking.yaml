@@ -46,6 +46,21 @@ spec:
     port: 80
     targetPort: 80
 ---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-webapp
+  namespace: "{{ .Values.windows_networking_namespace_base }}-user{{ .user_index }}"
+spec:
+  to:
+    kind: Service
+    name: webapp
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
