@@ -18,6 +18,10 @@ spec:
             path: uplift
             dependsOn: ossm-cp
             namespace: "openshift-gitops"
+          - app: windowsnetworking
+            path: windowsnetworking
+            dependsOn: ossm-cp
+            namespace: "openshift-gitops"
   template:
     metadata:
       name: {{`'{{.app}}'`}}
