@@ -31,35 +31,35 @@ spec:
   - protocol: TCP
     port: 3306
     targetPort: 3306
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: webapp
-  namespace: "{{ .Values.windows_networking_namespace_base }}-user{{ .user_index }}"
-spec:
-  selector:
-    env: webapp
-  ports:
-  - protocol: TCP
-    name: http
-    port: 80
-    targetPort: 80
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: route-webapp
-  namespace: "{{ .Values.windows_networking_namespace_base }}-user{{ .user_index }}"
-spec:
-  to:
-    kind: Service
-    name: webapp
-  port:
-    targetPort: 80
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: windowsnetworking
+#   namespace: "{{ .Values.windows_networking_namespace_base }}-user{{ .user_index }}"
+# spec:
+#   selector:
+#     app: winnetworking
+#   ports:
+#   - protocol: TCP
+#     name: http
+#     port: 80
+#     targetPort: 80
+# ---
+# apiVersion: route.openshift.io/v1
+# kind: Route
+# metadata:
+#   name: windowsnetworking
+#   namespace: "{{ .Values.windows_networking_namespace_base }}-user{{ .user_index }}"
+# spec:
+#   to:
+#     kind: Service
+#     name: winnetworking
+#   port:
+#     targetPort: 80
+#   tls:
+#     termination: edge
+#     insecureEdgeTerminationPolicy: Redirect
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -163,7 +163,7 @@ spec:
   template:
     metadata:
       labels:
-        env: webapp
+        app: winnetworking
     spec:
       domain:
         clock:
@@ -259,7 +259,7 @@ spec:
   template:
     metadata:
       labels:
-        env: webapp
+        app: winnetworking
     spec:
       domain:
         clock:
