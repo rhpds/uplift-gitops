@@ -147,7 +147,8 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-      env: webapp
+      labels:
+        env: webapp
     spec:
       domain:
         clock:
@@ -242,7 +243,8 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-      env: webapp
+      labels:
+        env: webapp
     spec:
       domain:
         clock:
