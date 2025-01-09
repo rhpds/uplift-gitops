@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}"
+  name: "{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}"
   labels:
     app: winmesh
 ---
@@ -31,30 +31,30 @@ metadata:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: database
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   labels:
     kiali_wizard: request_routing
 spec:
   hosts:
-    - database.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+    - database.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
   http:
     - route:
         - destination:
-            host: database.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            host: database.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
           weight: 100
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1beta1
 metadata:
   name: winmesh
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
     kiali_wizard: request_routing
 spec:
-  host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+  host: winmesh.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
   subsets:
     - name: v1
       labels:
@@ -67,7 +67,7 @@ kind: Gateway
 apiVersion: networking.istio.io/v1beta1
 metadata:
   name: winmesh-gateway
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
@@ -88,7 +88,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: route-job
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
@@ -107,13 +107,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: route-job
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 ---
 kind: VirtualService
 apiVersion: networking.istio.io/v1beta1
 metadata:
   name: winmesh
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
@@ -123,16 +123,16 @@ spec:
   hosts:
     - 'user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
   gateways:
-    - user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}/winmesh-gateway
+    - {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}/winmesh-gateway
     - mesh
   http:
     - route:
         - destination:
-            host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            host: winmesh.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
             subset: v1
           weight: 50
         - destination:
-            host: winmesh.user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}.svc.cluster.local
+            host: winmesh.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
             subset: v2
           weight: 50
 ---
@@ -140,7 +140,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: loadmaker
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
   # namespace: windowsmesh
 spec:
   replicas: 1
@@ -188,7 +188,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: admin
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -202,7 +202,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: database
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 spec:
   selector:
     vm.kubevirt.io/name: database
@@ -215,7 +215,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: winmesh
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 spec:
   selector:
     env: winmesh
@@ -235,7 +235,7 @@ metadata:
     app: database
     app.kubernetes.io/part-of: 3-Tier-App
   name: database
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 spec:
   dataVolumeTemplates:
   - apiVersion: cdi.kubevirt.io/v1beta1
@@ -311,7 +311,7 @@ metadata:
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.25.0
   name: winweb01
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 spec:
   dataVolumeTemplates:
   - apiVersion: cdi.kubevirt.io/v1beta1
@@ -424,7 +424,7 @@ metadata:
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.25.0
   name: winweb02
-  namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 spec:
   dataVolumeTemplates:
   - apiVersion: cdi.kubevirt.io/v1beta1
@@ -532,7 +532,7 @@ spec:
 # kind: Job
 # metadata:
 #   name: user{{ .user_index }}-gateway-patch
-#   namespace: user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }}
+#   namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 #   annotations:
 #     argocd.argoproj.io/hook: PostSync
 #     # argocd.argoproj.io/hook-delete-policy: HookSucceeded
@@ -550,9 +550,9 @@ spec:
 #           ROUTE_HOST=$(oc get route user{{ .user_index }} -n istio-system -o jsonpath='{.spec.host}')
 #           echo $ROUTE_HOST
 #
-#           oc patch gateway winmesh-gateway -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+#           oc patch gateway winmesh-gateway -n {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }} \
 #             --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/servers/0/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
-#           oc patch virtualservice winmesh -n user{{ .user_index }}-{{ .Values.windows_mesh_namespace_base }} \
+#           oc patch virtualservice winmesh -n {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }} \
 #             --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/hosts\", \"value\": [\"$ROUTE_HOST\"]}]"
 #       restartPolicy: Never
 {{- end -}}
