@@ -26,7 +26,11 @@ spec:
     metadata:
       name: {{`'{{.app}}'`}}
     spec:
-      project: default
+      ignoreDifferences:
+      - kind: VirtualMachine
+        name: winweb01
+        jsonPointers:
+        - /spec/template/spec/domain/cpu/sockets
       source:
         repoURL: https://github.com/newgoliath/rosa_uplift.git
         targetRevision: main
