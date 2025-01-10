@@ -28,7 +28,8 @@ spec:
     spec:
       project: default
       ignoreDifferences:
-      - kind: VirtualMachine
+      - group: kubevirt.io
+        kind: VirtualMachine
         name: winweb01
         jsonPointers:
         - /spec/domain/cpu/sockets
