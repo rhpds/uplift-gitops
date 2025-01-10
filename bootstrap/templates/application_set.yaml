@@ -26,6 +26,7 @@ spec:
     metadata:
       name: {{`'{{.app}}'`}}
     spec:
+      project: default
       ignoreDifferences:
       - kind: VirtualMachine
         name: winweb01
