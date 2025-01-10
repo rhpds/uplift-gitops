@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.istio_cp_namespace }}
   labels:
     demo.redhat.com/userinfo: ""
-data:
+data: |
   users:
 {{- $cm_max_users := ( add ( int .Values.user.count ) 1 ) -}}
 {{- range $cm_user_index := untilStep 1 ( int $cm_max_users ) 1 }}
