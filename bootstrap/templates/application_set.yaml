@@ -31,6 +31,7 @@ spec:
         name: winweb01
         jsonPointers:
         - /spec/template/spec/domain/cpu/sockets
+        - /spec/running
       source:
         repoURL: https://github.com/newgoliath/rosa_uplift.git
         targetRevision: main
