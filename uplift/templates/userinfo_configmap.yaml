@@ -9,5 +9,6 @@ metadata:
 data:
 {{- $cm_max_users := ( add ( int .Values.user.count ) 1 ) -}}
 {{- range $cm_user_index := untilStep 1 ( int $cm_max_users ) 1 }}
-  user{{ $cm_user_index }}: https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}
+  user{{ $cm_user_index }}:
+    stuff: 'https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}'
 {{- end }}
