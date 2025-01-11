@@ -25,6 +25,8 @@ spec:
   template:
     metadata:
       name: {{`'{{.app}}'`}}
+      labels:
+        demo.redhat.com/catalogItem: true
     spec:
       project: default
       ignoreDifferences:
