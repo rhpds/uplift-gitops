@@ -26,7 +26,7 @@ spec:
     metadata:
       name: {{`'{{.app}}'`}}
       labels:
-        demo.redhat.com/catalogItem: 'true'
+        demo.redhat.com/application: 'true'
     spec:
       project: default
       ignoreDifferences:
