@@ -7,7 +7,7 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
-  users_json: >
+  users_json: >-
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
