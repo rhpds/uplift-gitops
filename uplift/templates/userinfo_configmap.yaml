@@ -11,5 +11,5 @@ data:
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
-          "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}" }
+    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "happy": "news" }
         {{- end -}} }}
