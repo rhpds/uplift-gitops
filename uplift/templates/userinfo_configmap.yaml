@@ -7,9 +7,14 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
-  users: |
-{{- $cm_max_users := ( add ( int .Values.user.count ) 1 ) -}}
-{{- range $cm_user_index := untilStep 1 ( int $cm_max_users ) 1 }}
-    user{{ $cm_user_index }}:
-      kiali_url: 'https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}'
-{{- end }}
+  users.json: |
+    {
+      "users": {
+        {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 }}
+        {{- if ne $i 1 }},{{ end }}
+          "user{{ $i }}": {
+            "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}"
+          }
+        {{- end }}
+      }
+    }
