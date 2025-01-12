@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: userinfo
+  name: userinfo_users_json
   namespace: {{ .Values.istio_cp_namespace }}
   labels:
     demo.redhat.com/userinfo: ""
@@ -12,5 +12,33 @@ data:
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
-    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "happy": "news" }
+    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "first": "json" }
         {{- end -}} }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: userinfo_users_json2
+  namespace: {{ .Values.istio_cp_namespace }}
+  labels:
+    demo.redhat.com/userinfo: ""
+data:
+  hairball: companion
+  users_json: >-
+    {"users": {
+          {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
+          {{- if ne $i 1 -}},{{- end -}}
+    "user{{ $i }}": {  "second": "json" }
+        {{- end -}} }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: userinfo_yaml
+  namespace: {{ .Values.istio_cp_namespace }}
+  labels:
+    demo.redhat.com/userinfo: ""
+data:
+  user_data: base
+  user_data_one: one
+  user_data_two: two
