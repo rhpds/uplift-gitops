@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: userinfo_users_json
+  name: userinfo-users-json
   namespace: {{ .Values.istio_cp_namespace }}
   labels:
     demo.redhat.com/userinfo: ""
@@ -18,7 +18,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: userinfo_users_json2
+  name: userinfo-users-json2
   namespace: {{ .Values.istio_cp_namespace }}
   labels:
     demo.redhat.com/userinfo: ""
@@ -34,7 +34,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: userinfo_yaml
+  name: userinfo-yaml
   namespace: {{ .Values.istio_cp_namespace }}
   labels:
     demo.redhat.com/userinfo: ""
