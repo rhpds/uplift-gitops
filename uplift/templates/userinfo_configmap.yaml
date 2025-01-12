@@ -7,7 +7,7 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
-  hairball: companion
+  first: userinfo-users-json
   users_json: >-
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
@@ -23,6 +23,7 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
+  second: userinfo-users-json2
   hairball: companion
   users_json: >-
     {"users": {
@@ -39,6 +40,7 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
+  third: userinfo-yaml
   user_data: base
   user_data_one: one
   user_data_two: two
