@@ -12,7 +12,7 @@ data:
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
-    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "first": "json" }
+    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "sample_key_first": "sample_value" }
         {{- end -}} }}
 ---
 apiVersion: v1
@@ -29,7 +29,7 @@ data:
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
-    "user{{ $i }}": {  "second": "json" }
+    "user{{ $i }}": {  "sample_key_second": "sample_value" }
         {{- end -}} }}
 ---
 apiVersion: v1
@@ -40,7 +40,4 @@ metadata:
   labels:
     demo.redhat.com/userinfo: ""
 data:
-  third: userinfo-yaml
-  user_data: base
-  user_data_one: one
-  user_data_two: two
+  sample_value_third: sample_value
