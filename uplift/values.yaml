@@ -15,6 +15,7 @@ windows_mesh_namespace_base: windowsmesh
 windows_networking_namespace_base: windowsnetworking
 vms_image_url: http://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt
 vms_start_vms: "false"
+vms_run_strategy: "Halted"
 vms_machine_type: q35
 
 ossm_vms_sidecar_inject: "true"

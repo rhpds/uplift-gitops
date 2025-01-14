@@ -86,7 +86,8 @@ spec:
         resources:
           requests:
             storage: 16Gi
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
       annotations:
@@ -159,7 +160,8 @@ spec:
         resources:
           requests:
             storage: 90Gi
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
       labels:
@@ -255,7 +257,8 @@ spec:
         resources:
           requests:
             storage: 90Gi
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
       labels:
