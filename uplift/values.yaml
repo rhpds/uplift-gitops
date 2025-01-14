@@ -14,7 +14,7 @@ istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
 windows_networking_namespace_base: windowsnetworking
 vms_image_url: http://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt
-vms_start_vms: "true"
+vms_start_vms: "false"
 vms_machine_type: q35
 
 ossm_vms_sidecar_inject: "true"
