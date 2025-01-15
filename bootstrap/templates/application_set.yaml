@@ -34,6 +34,7 @@ spec:
         kind: VirtualMachine
         jsonPointers:
         - /spec/template/spec/domain/cpu/cores
+        - /spec/running
       source:
         repoURL: https://github.com/newgoliath/rosa_uplift.git
         targetRevision: main
