@@ -32,7 +32,6 @@ spec:
       ignoreDifferences:
       - group: kubevirt.io
         kind: VirtualMachine
-        name: winweb01
         jsonPointers:
         - /spec/template/spec/domain/cpu/cores
         - /spec/runStrategy
