@@ -125,6 +125,7 @@ spec:
         resources:
           requests:
             memory: 2Gi
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}
@@ -222,6 +223,7 @@ spec:
         resources:
           requests:
             memory: 6Gi
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}
@@ -319,6 +321,7 @@ spec:
         resources:
           requests:
             memory: 6Gi
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}

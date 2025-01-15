@@ -291,7 +291,7 @@ spec:
         resources:
           requests:
             memory: 2Gi
-      # evictionStrategy: LiveMigrate
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}
@@ -405,7 +405,7 @@ spec:
         resources:
           requests:
             memory: 6Gi
-      # evictionStrategy: LiveMigrate
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}
@@ -519,7 +519,7 @@ spec:
         resources:
           requests:
             memory: 6Gi
-      # evictionStrategy: LiveMigrate
+      evictionStrategy: None
       networks:
       - name: default
         pod: {}
