@@ -28,7 +28,7 @@ spec:
       labels:
         demo.redhat.com/application: ""
       annotations:
-        notifications.argoproj.io/subscribe.on-sync-succeeded.slack: notifications-argo-rh1
+        notifications.argoproj.io/subscribe.on-sync-succeeded.webhook: slack_webhook
     spec:
       project: default
       ignoreDifferences:
