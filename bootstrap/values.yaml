@@ -7,8 +7,8 @@ deployer:
   apiUrl: https://api.cluster.opentlc.com:6443
 
 user:
-  count: 2
-  base: user
+  count: "2"
+  base: "user"
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
