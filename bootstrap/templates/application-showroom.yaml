@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/rhpds/ocp-cluster-addons.git'
-    targetRevision: showroom
-    path: showroom
+    repoURL: {{ .Values.addons.repoUrl }}
+    targetRevision: {{ .Values.addons.repoRef }}
+    path: {{ .Values.showroom.addons.repoPath }}
     helm:
       values: |
         user:
@@ -17,7 +17,7 @@ spec:
           domain: {{ .Values.deployer.domain }}
         content:
           repoUrl: {{ .Values.content.repoUrl }}
-          repoRef: main
+          repoRef: {{ .Values.content.repoRef }}
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: openshift-gitops
@@ -25,5 +25,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

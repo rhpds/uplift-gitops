@@ -10,8 +10,14 @@ content:
   repoUrl: https://github.com/rhpds/showroom_template_default.git
   repoRef: main
 
+addons:
+  repoUrl: https://github.com/rhpds/ocp-cluster-addons.git
+  repoRef: main
+
 showroom:
   namespace: showroom
+  addons:
+    repoPath: showroom
 
 user:
   count: "1"
