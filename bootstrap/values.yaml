@@ -6,8 +6,15 @@ deployer:
   domain: REPLACEME-OPENSHIFT_DOMAIN-multi-tenant-uplift
   apiUrl: https://api.cluster.opentlc.com:6443
 
+content:
+  repoUrl: https://github.com/rhpds/showroom_template_default.git
+  repoRef: main
+
+showroom:
+  namespace: showroom
+
 user:
-  count: "2"
+  count: "1"
   base: "user"
 
 istio_cp_namespace: istio-system

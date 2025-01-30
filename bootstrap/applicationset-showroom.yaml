@@ -36,9 +36,13 @@ spec:
               domain: {{ .Values.deployer.domain }}
               apiUrl: {{ .Values.deployer.apiUrl }}
             {{- if eq .Values.user.count "1" }}
-            namespace: showroom
+            showroom:
+              app_name: showroom
+              namespace: showroom
             {{- else }}
-            namespace: showroom-{{.Values.user.base}}{{`{{.index}}`}}
+            showroom:
+              app_name: showroom-{{.Values.user.base}}{{`{{.index}}`}}
+              namespace: showroom-{{.Values.user.base}}{{`{{.index}}`}}
             {{- end }}
             user_num: {{`{{.index}}`}}
       destination:
