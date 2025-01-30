@@ -7,7 +7,7 @@ deployer:
   apiUrl: https://api.cluster.opentlc.com:6443
 
 content:
-  repoUrl: https://github.com/rhpds/showroom_template_default.git
+  repoUrl: https://github.com/rhpds/showroom_rosa_uplift.git
   repoRef: main
 
 addons:
