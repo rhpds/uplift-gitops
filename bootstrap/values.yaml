@@ -21,7 +21,7 @@ showroom:
     repoRef: showroom
 
 user:
-  count: "10"
+  count: "1"
   base: "user"
 
 istio_cp_namespace: istio-system
