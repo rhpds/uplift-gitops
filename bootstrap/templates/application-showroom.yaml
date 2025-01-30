@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: {{ .Values.addons.repoUrl }}
-    targetRevision: {{ .Values.addons.repoRef }}
+    targetRevision: {{ .Values.showroom.addons.repoRef }}
     path: {{ .Values.showroom.addons.repoPath }}
     helm:
       values: |

@@ -12,12 +12,13 @@ content:
 
 addons:
   repoUrl: https://github.com/rhpds/ocp-cluster-addons.git
-  repoRef: main
+  repoRef: showroom
 
 showroom:
   namespace: showroom
   addons:
     repoPath: showroom
+    repoRef: showroom
 
 user:
   count: "1"
