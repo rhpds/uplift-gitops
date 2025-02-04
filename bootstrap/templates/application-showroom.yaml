@@ -1,27 +1,28 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: showroom-apps
-  namespace: openshift-gitops
-spec:
-  project: default
-  source:
-    repoURL: {{ .Values.addons.repoUrl }}
-    targetRevision: {{ .Values.showroom.addons.repoRef }}
-    path: {{ .Values.showroom.addons.repoPath }}
-    helm:
-      values: |
-        user:
-          count: "{{ .Values.user.count }}"
-        deployer:
-          domain: {{ .Values.deployer.domain }}
-        content:
-          repoUrl: {{ .Values.content.repoUrl }}
-          repoRef: {{ .Values.content.repoRef }}
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: openshift-gitops
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+# COMMENT OUT FOR RH1
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: showroom-apps
+#   namespace: openshift-gitops
+# spec:
+#   project: default
+#   source:
+#     repoURL: {{ .Values.addons.repoUrl }}
+#     targetRevision: {{ .Values.showroom.addons.repoRef }}
+#     path: {{ .Values.showroom.addons.repoPath }}
+#     helm:
+#       values: |
+#         user:
+#           count: "{{ .Values.user.count }}"
+#         deployer:
+#           domain: {{ .Values.deployer.domain }}
+#         content:
+#           repoUrl: {{ .Values.content.repoUrl }}
+#           repoRef: {{ .Values.content.repoRef }}
+#   destination:
+#     server: 'https://kubernetes.default.svc'
+#     namespace: openshift-gitops
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
