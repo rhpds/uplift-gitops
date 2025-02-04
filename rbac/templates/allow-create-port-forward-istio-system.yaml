@@ -15,10 +15,12 @@ metadata:
   name: istiod-portforward-binding
   namespace: istio-system
 subjects:
-- kind: User
-  name: user1
+- kind: Group
   apiGroup: rbac.authorization.k8s.io
+  name: 'system:authenticated'
 roleRef:
   kind: Role
   name: istiod-portforward-role
   apiGroup: rbac.authorization.k8s.io
+
+# 2025-02-04T16:17:19Z WRN Unable to get ready status of istiod: istio-system/istiod-basic-6c9b7cc7bb-5lzx9. Err: error upgrading connection: pods "istiod-basic-6c9b7cc7bb-5lzx9" is forbidden: User "user1" cannot create resource "pods/portforward" in API group "" in the namespace "istio-system"
