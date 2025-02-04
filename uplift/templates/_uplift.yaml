@@ -124,7 +124,6 @@ spec:
     - 'user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
   gateways:
     - {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}/winmesh-gateway
-    - mesh
   http:
     - route:
         - destination:
