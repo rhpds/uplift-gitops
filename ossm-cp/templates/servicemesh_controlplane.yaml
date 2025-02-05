@@ -46,7 +46,7 @@ spec:
         container:
           resources:
             limits:
-              cpu: 1
+              cpu: "1"
               memory: 1Gi
       grafana:
         deployment: {}
