@@ -10,6 +10,12 @@ user:
   count: 2
   base: user
 
+content:
+  mode: workshop # or demo
+
+ossm:
+  deployResources: false # false for workshop mode
+
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
 windows_networking_namespace_base: windowsnetworking

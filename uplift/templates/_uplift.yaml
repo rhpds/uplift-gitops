@@ -7,6 +7,31 @@ metadata:
   labels:
     app: winmesh
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: route-job
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: route-job-user{{ .user_index }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: route-job
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
+---
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
@@ -42,6 +67,7 @@ spec:
         - destination:
             host: database.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
           weight: 100
+{{- if $.Values.ossm.deployResources }}
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1beta1
@@ -62,6 +88,8 @@ spec:
     - name: v2
       labels:
         version: v2
+{{- end }}
+{{- if $.Values.ossm.deployResources }}
 ---
 kind: Gateway
 apiVersion: networking.istio.io/v1beta1
@@ -83,31 +111,8 @@ spec:
         - 'user{{ .user_index }}-istio-system.{{ .Values.deployer.domain }}'
   selector:
     istio: ingressgateway
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: route-job
-  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: route-job-user{{ .user_index }}
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: route-job
-  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
+{{- end }}
+{{- if .Values.ossm.deployResources }}
 ---
 kind: VirtualService
 apiVersion: networking.istio.io/v1beta1
@@ -134,6 +139,7 @@ spec:
             host: winmesh.{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}.svc.cluster.local
             subset: v2
           weight: 50
+{{- end }}
 ---
 kind: Deployment
 apiVersion: apps/v1

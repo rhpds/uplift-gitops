@@ -41,3 +41,19 @@ metadata:
     demo.redhat.com/userinfo: ""
 data:
   sample_value_third: sample_value
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: userinfo-users-yaml
+  namespace: {{ .Values.istio_cp_namespace }}
+  labels:
+    demo.redhat.com/userinfo: ""
+data:
+  first: userinfo-users-json
+  users: >-
+    {{ range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
+      user{{ $i }}:
+        kiali_url: "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}"
+        sample_key_second: sample_value
+    {{ end -}}
