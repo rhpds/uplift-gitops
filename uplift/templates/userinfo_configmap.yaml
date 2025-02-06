@@ -12,48 +12,5 @@ data:
     {"users": {
           {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
           {{- if ne $i 1 -}},{{- end -}}
-    "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}", "sample_key_first": "sample_value" }
+      "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}"}
         {{- end -}} }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: userinfo-users-json2
-  namespace: {{ .Values.istio_cp_namespace }}
-  labels:
-    demo.redhat.com/userinfo: ""
-data:
-  second: userinfo-users-json2
-  hairball: companion
-  users_json: >-
-    {"users": {
-          {{- range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
-          {{- if ne $i 1 -}},{{- end -}}
-    "user{{ $i }}": {  "sample_key_second": "sample_value" }
-        {{- end -}} }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: userinfo-yaml
-  namespace: {{ .Values.istio_cp_namespace }}
-  labels:
-    demo.redhat.com/userinfo: ""
-data:
-  sample_value_third: sample_value
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: userinfo-users-yaml
-  namespace: {{ .Values.istio_cp_namespace }}
-  labels:
-    demo.redhat.com/userinfo: ""
-data:
-  first: userinfo-users-json
-  users: >-
-    {{ range $i := untilStep 1 ( .Values.user.count | add1 | int ) 1 -}}
-      user{{ $i }}:
-        kiali_url: "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}"
-        sample_key_second: sample_value
-    {{ end -}}
