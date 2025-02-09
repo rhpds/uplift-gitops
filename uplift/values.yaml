@@ -10,6 +10,9 @@ user:
   count: 2
   base: user
 
+ossm:
+  deployResources: false
+
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
 windows_networking_namespace_base: windowsnetworking
