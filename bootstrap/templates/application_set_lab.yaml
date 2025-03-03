@@ -42,11 +42,14 @@ spec:
         - /spec/template/spec/domain/cpu/cores
         - /spec/running
       source:
-        repoURL: https://github.com/newgoliath/rosa_uplift.git
-        targetRevision: main
+        repoURL: {{ .Values.workloads.repoUrl }}
+        targetRevision: {{ .Values.workloads.repoRef }}
         path: {{`'{{ .path }}'`}}
         helm:
           values: |
+            workloads:
+              repoURL: {{ .Values.workloads.repoUrl }}
+              targetRevision: {{ .Values.workloads.repoRef }}
             user:
               count: {{ .Values.user.count }}
               base: {{ .Values.user.base }}

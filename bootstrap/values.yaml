@@ -10,6 +10,10 @@ content:
   repoUrl: https://github.com/rhpds/showroom_template_default.git
   repoRef: main
 
+workloads:
+  repoUrl: https://github.com/newgoliath/rosa_uplift.git
+  repoRef: dev
+
 addons:
   repoUrl: https://github.com/rhpds/ocp-cluster-addons.git
   repoRef: showroom
@@ -23,6 +27,7 @@ showroom:
 user:
   count: "1"
   base: "user"
+  mode: "workshop"
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
