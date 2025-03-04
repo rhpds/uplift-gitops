@@ -21,6 +21,4 @@ ingressgatway_url_path: https://localhost
 # and add updates to the templates/ to support them
 cloud: rosa
 
-members:
-  - windowsmesh
-  - user1-windowsmesh
+use_ServiceMeshMemberRoll: "false"
