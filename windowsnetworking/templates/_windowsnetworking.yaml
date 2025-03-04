@@ -222,7 +222,7 @@ spec:
           type: {{ .Values.vms_machine_type }}
         resources:
           requests:
-            memory: 6Gi
+            memory: 1Gi
       evictionStrategy: None
       networks:
       - name: default
@@ -320,7 +320,7 @@ spec:
           type: {{ .Values.vms_machine_type }}
         resources:
           requests:
-            memory: 6Gi
+            memory: 1Gi
       evictionStrategy: None
       networks:
       - name: default

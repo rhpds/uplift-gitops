@@ -1,0 +1,17 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: istio-system
+  name: mesh-users
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mesh-user
+subjects:
+{{- $max_users := ( add ( int .Values.user.count ) 1 ) -}}
+{{- range $user_index := untilStep 1 ( int $max_users ) 1 }}
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: "{{ $.Values.user.base }}{{ $user_index }}"
+{{- end }}

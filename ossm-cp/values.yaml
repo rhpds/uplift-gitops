@@ -2,6 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+user:
+  count: 1
+  base: user
+
 user_number: 1
 
 istio_cp_namespace: istio-system
@@ -21,6 +25,4 @@ ingressgatway_url_path: https://localhost
 # and add updates to the templates/ to support them
 cloud: rosa
 
-members:
-  - windowsmesh
-  - user1-windowsmesh
+use_ServiceMeshMemberRoll: "false"
