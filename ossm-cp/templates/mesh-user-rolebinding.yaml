@@ -13,5 +13,5 @@ subjects:
 {{- range $user_index := untilStep 1 ( int $max_users ) 1 }}
 - apiGroup: rbac.authorization.k8s.io
   kind: User
-  name: "{{ .Values.user.base }}{{ $user_index }}"
+  name: "{{ $.Values.user.base }}{{ $user_index }}"
 {{- end }}
