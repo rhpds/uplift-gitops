@@ -2,6 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+user:
+  count: 1
+  base: user
+
 user_number: 1
 
 istio_cp_namespace: istio-system

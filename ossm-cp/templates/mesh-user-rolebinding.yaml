@@ -9,6 +9,9 @@ roleRef:
   kind: Role
   name: mesh-user
 subjects:
+{{- $max_users := ( add ( int .Values.user.count ) 1 ) -}}
+{{- range $user_index := untilStep 1 ( int $max_users ) 1 }}
 - apiGroup: rbac.authorization.k8s.io
   kind: User
-  name: user1
+  name: {{ .Values.user.base }}{{ $user_index }}
+{{- end }}
