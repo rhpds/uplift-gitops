@@ -265,7 +265,6 @@ spec:
         vm.kubevirt.io/workload: server
         # sidecar.istio.io/inject: "true"
       labels:
-        sidecar.istio.io/inject: "true"
         kubevirt.io/domain: database
         kubevirt.io/size: small
     spec:
@@ -346,7 +345,6 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
-        sidecar.istio.io/inject: "true"
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
@@ -460,7 +458,6 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
-        sidecar.istio.io/inject: "true"
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
