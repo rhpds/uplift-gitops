@@ -327,7 +327,7 @@ spec:
     spec:
       source:
         http:
-          url: {{ .Values.vms_image_url }}/winweb01.qcow2
+          url: {{ .Values.vms_image_url }}/winweb01_no_db.qcow2
       storage:
         resources:
           requests:
@@ -441,7 +441,7 @@ spec:
     spec:
       source:
         http:
-          url: {{ .Values.vms_image_url }}/winweb02.qcow2
+          url: {{ .Values.vms_image_url }}/winweb02_no_db.qcow2
       storage:
         resources:
           requests:
