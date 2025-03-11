@@ -28,7 +28,6 @@ subjects:
 - kind: ServiceAccount
   name: default
   namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
-  # namespace: {{ ocp4_workload_virt_roadshow_vms_base_namespace }}{{ ocp4_workload_virt_roadshow_vms_userbase }}{{ user_number }}
 roleRef:
   kind: ClusterRole
   name: datavolume-cloner
