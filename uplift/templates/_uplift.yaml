@@ -15,6 +15,24 @@ metadata:
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
+#
+# rolebinding_for_dv_clone
+#
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: allow-clone-user{{ .user_index }}
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
+  # namespace: {{ ocp4_workload_virt_roadshow_vms_base_namespace }}{{ ocp4_workload_virt_roadshow_vms_userbase }}{{ user_number }}
+roleRef:
+  kind: ClusterRole
+  name: datavolume-cloner
+  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -249,8 +267,10 @@ spec:
       name: database
     spec:
       source:
-        http:
-          url: {{ .Values.vms_image_url }}/database.qcow2
+        pvc:
+          name: database
+        # http:
+        #   url: {{ .Values.vms_image_url }}/database.qcow2
       storage:
         resources:
           requests:
@@ -326,8 +346,10 @@ spec:
       name: winweb01
     spec:
       source:
-        http:
-          url: {{ .Values.vms_image_url }}/winweb01_no_db.qcow2
+        pvc:
+          name: winweb01
+        # http:
+        #   url: {{ .Values.vms_image_url }}/winweb01_no_db.qcow2
       storage:
         resources:
           requests:
@@ -440,8 +462,10 @@ spec:
       name: winweb02
     spec:
       source:
-        http:
-          url: {{ .Values.vms_image_url }}/winweb02_no_db.qcow2
+        pvc:
+          name: winweb02
+        # http:
+        #   url: {{ .Values.vms_image_url }}/winweb02_no_db.qcow2
       storage:
         resources:
           requests:
