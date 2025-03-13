@@ -368,7 +368,9 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
         sidecar.istio.io/inject: "true"
+{{- end }}
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
@@ -485,7 +487,9 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
         sidecar.istio.io/inject: "true"
+{{- end }}
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
