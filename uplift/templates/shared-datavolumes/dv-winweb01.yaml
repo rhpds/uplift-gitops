@@ -5,6 +5,7 @@ metadata:
   name: winweb01
   namespace: default
   annotations:
+    argocd.argoproj.io/sync-wave: "2"
     cdi.kubevirt.io/storage.bind.immediate.requested: 'true'
 spec:
   source:
