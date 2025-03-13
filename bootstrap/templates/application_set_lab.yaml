@@ -41,6 +41,8 @@ spec:
         jsonPointers:
         - /spec/template/spec/domain/cpu/cores
         - /spec/running
+        - /spec/template/metadata/labels
+        - /spec/template/metadata/annotations
       source:
         repoURL: {{ .Values.workloads.repoUrl }}
         targetRevision: {{ .Values.workloads.repoRef }}
