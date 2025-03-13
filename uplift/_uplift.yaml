@@ -288,7 +288,6 @@ spec:
         vm.kubevirt.io/flavor: small
         vm.kubevirt.io/os: centos9
         vm.kubevirt.io/workload: server
-        sidecar.istio.io/inject: "true"
       labels:
         sidecar.istio.io/inject: "true"
         kubevirt.io/domain: database
@@ -362,7 +361,6 @@ spec:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
@@ -475,7 +473,6 @@ spec:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
