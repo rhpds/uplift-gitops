@@ -295,8 +295,10 @@ spec:
         vm.kubevirt.io/flavor: small
         vm.kubevirt.io/os: centos9
         vm.kubevirt.io/workload: server
-      labels:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
         sidecar.istio.io/inject: "true"
+{{- end }}
+      labels:
         kubevirt.io/domain: database
         kubevirt.io/size: small
     spec:
@@ -370,8 +372,9 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-{{- if eq .Values.ossm_vms_proxy_config "true" }}
       annotations:
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
@@ -379,9 +382,6 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
-{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
-        sidecar.istio.io/inject: "true"
-{{- end }}
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
@@ -488,8 +488,9 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-{{- if eq .Values.ossm_vms_proxy_config "true" }}
+{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
       annotations:
+        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
@@ -497,9 +498,6 @@ spec:
             ISTIO_META_DNS_AUTO_ALLOCATE: 'false'
 {{- end }}
       labels:
-{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
-        sidecar.istio.io/inject: "true"
-{{- end }}
         env: winmesh
 {{- if eq .Values.ossm_vms_service_discovery "true" }}
 {{ .Values.ossm_vms_service_discovery_label | indent 8 }}
