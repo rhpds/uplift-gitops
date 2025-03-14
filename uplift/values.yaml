@@ -14,7 +14,7 @@ content:
   mode: workshop # or demo
 
 ossm:
-  deployResources: true # false for workshop mode
+  deployResources: false # false for workshop mode
 
 istio_cp_namespace: istio-system
 windows_mesh_namespace_base: windowsmesh
