@@ -370,9 +370,8 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+{{- if eq .Values.ossm_vms_proxy_config "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
@@ -489,9 +488,8 @@ spec:
   running: {{ .Values.vms_start_vms }}
   template:
     metadata:
-{{- if eq .Values.ossm_vms_sidecar_inject "true" }}
+{{- if eq .Values.ossm_vms_proxy_config "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
