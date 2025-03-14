@@ -242,6 +242,7 @@ spec:
     vm.kubevirt.io/name: database
   ports:
   - protocol: TCP
+    name: mysql
     port: 3306
     targetPort: 3306
 ---
