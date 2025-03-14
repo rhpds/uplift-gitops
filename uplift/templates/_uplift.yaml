@@ -6,6 +6,18 @@ metadata:
   name: "{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}"
   labels:
     app: winmesh
+{{- if $.Values.ossm.servicemeshmember_create }}
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMember
+metadata:
+  name: default
+  name: "{{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}"
+spec:
+  controlPlaneRef:
+    namespace: istio-system
+    name: basic
+{{- end }}
 ---
 apiVersion: v1
 kind: ServiceAccount

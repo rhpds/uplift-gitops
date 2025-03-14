@@ -26,6 +26,7 @@ vms_run_strategy: "Manual"
 vms_machine_type: q35
 
 ossm_vms_sidecar_inject: "false"
+ossm_vms_servicemeshmember_create: "false"
 ossm_vms_service_discovery: "true"
 ossm_vms_service_discovery_label: "app: winmesh"
 ossm_vms_label_versions: "true"
