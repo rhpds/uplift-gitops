@@ -14,10 +14,10 @@ spec:
             path: ossm-cp
             dependsOn: ""
             namespace: istio-system
-          - app: mtv
-            path: mtv
-            dependsOn: ossm-cp
-            namespace: "openshift-gitops"
+          # - app: mtv
+          #   path: mtv
+          #   dependsOn: ossm-cp
+          #   namespace: "openshift-gitops"
           - app: rbac
             path: rbac
             dependsOn: ossm-cp
