@@ -245,6 +245,7 @@ spec:
     name: mysql
     port: 3306
     targetPort: 3306
+{{- if $.Values.ossm.deployResources }}
 ---
 apiVersion: v1
 kind: Service
@@ -259,6 +260,7 @@ spec:
     name: http
     port: 80
     targetPort: 80
+{{- end }}
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
