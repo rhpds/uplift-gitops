@@ -1,0 +1,28 @@
+# Default values for rosa_uplift lab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+user:
+  count: 1
+  base: user
+
+user_number: 1
+
+istio_cp_namespace: istio-system
+windows_mesh_namespace_base: windowsmesh
+windows_networking_namespace_base: windowsnetworking
+vms_image_url: http://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt
+vms_start_vms: "true"
+vms_machine_type: q35
+
+ossm_vms_sidecar_inject: "true"
+ossm_vms_service_discovery: "true"
+ossm_vms_service_discovery_label: "app: winmesh"
+ossm_vms_label_versions: "true"
+
+ingressgatway_url_path: https://localhost
+# add clouds here like aws, azure, gcp, rosa, etc.
+# and add updates to the templates/ to support them
+cloud: rosa
+
+use_ServiceMeshMemberRoll: "false"
