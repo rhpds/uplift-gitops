@@ -17,7 +17,6 @@ spec:
   controlPlaneRef:
     namespace: istio-system
     name: basic
-{{- end }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -27,6 +26,23 @@ metadata:
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: route-job-user{{ .user_index }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: route-job
+  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
+{{- end }}
 #
 # rolebinding_for_dv_clone
 #
@@ -44,22 +60,6 @@ roleRef:
   kind: ClusterRole
   name: datavolume-cloner
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: route-job-user{{ .user_index }}
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: route-job
-  namespace: {{ .Values.windows_mesh_namespace_base }}-user{{ .user_index }}
 ---
 kind: Route
 apiVersion: route.openshift.io/v1

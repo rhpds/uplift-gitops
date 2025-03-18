@@ -5,7 +5,7 @@ metadata:
   name: winweb03
   namespace: default
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
     cdi.kubevirt.io/storage.bind.immediate.requested: 'true'
 spec:
   source:
@@ -21,6 +21,8 @@ kind: VolumeSnapshot
 metadata:
   name: winweb03-volumesnapshot
   namespace: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   volumeSnapshotClassName: ocs-storagecluster-rbdplugin-snapclass
   source:
