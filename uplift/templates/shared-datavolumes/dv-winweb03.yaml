@@ -22,7 +22,7 @@ metadata:
   name: winweb03-volumesnapshot
   namespace: default
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   volumeSnapshotClassName: ocs-storagecluster-rbdplugin-snapclass
   source:

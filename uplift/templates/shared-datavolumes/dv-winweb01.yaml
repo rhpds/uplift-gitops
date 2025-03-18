@@ -18,11 +18,11 @@ spec:
 ---
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshot
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
 metadata:
   name: winweb01-volumesnapshot
   namespace: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   volumeSnapshotClassName: ocs-storagecluster-rbdplugin-snapclass
   source:
