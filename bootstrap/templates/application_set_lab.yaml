@@ -70,6 +70,7 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
+          - ApplyOutOfSyncOnly=true # best with many resources under management
           - CreateNamespace=true
         managedNamespaceMetadata:
           labels:
