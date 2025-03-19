@@ -34,6 +34,10 @@ spec:
             path: loadmaker
             dependsOn: uplift
             namespace: "openshift-gitops"
+          - app: showroom
+            path: showroom
+            dependsOn: uplift
+            namespace: "openshift-gitops"
           # - app: windowsnetworking
           #   path: windowsnetworking
           #   dependsOn: ossm-cp

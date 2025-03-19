@@ -1,3 +1,4 @@
+{{- define "showroom.app" -}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -14,3 +15,4 @@ data:
           {{- if ne $i 1 -}},{{- end -}}
       "user{{ $i }}": { "kiali_url": "https://kiali-{{$.Values.istio_cp_namespace}}.{{ $.Values.deployer.domain }}"}
         {{- end -}} }}
+{{- end -}}
