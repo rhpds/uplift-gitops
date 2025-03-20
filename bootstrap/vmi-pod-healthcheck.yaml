@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1beta1
+kind: ArgoCD
+spec:
+  resourceHealthChecks:
+    - check: |
+        hs = {}
+        -- Check if the Pod is in Progressing state due to restartPolicy: Never
+        if obj.status.phase == "Running" and obj.spec.restartPolicy == "Never" then
+          -- Look up ownerReferences
+          if obj.metadata.ownerReferences ~= nil then
+            for _, ownerRef in ipairs(obj.metadata.ownerReferences) do
+              -- Check if the owner is a VirtualMachineInstance
+              if ownerRef.kind == "VirtualMachineInstance" then
+                -- Fetch the VirtualMachineInstance resource
+                vmi = {}
+                vmi, err =
+                  kubernetes.get("kubevirt.io/v1", "VirtualMachineInstance", ownerRef.name, obj.metadata.namespace)
+                if err == nil and vmi ~= nil then
+                  -- Check if the VirtualMachineInstance has a Ready condition with status True
+                  if vmi.status.conditions ~= nil then
+                    for _, condition in ipairs(vmi.status.conditions) do
+                      if condition.type == "Ready" and condition.status == "True" then
+                        -- Return Healthy status
+                        hs.status = "Healthy"
+                        hs.message = "virt-manager pod is healthy"
+                        return hs
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        -- Default to Progressing status if conditions are not met
+        hs.status = "Progressing"
+        hs.message = "Pod is progressing or waiting for VirtualMachineInstance to be Ready"
+        return hs
+      group: v1
+      kind: Pod
