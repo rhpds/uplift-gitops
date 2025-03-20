@@ -208,12 +208,12 @@ spec:
       name: database-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: database-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: database
+        # snapshot:
+        #   name: database-volumesnapshot
         #   namespace: default
+        pvc:
+          name: database
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/database.qcow2
       storage:
@@ -292,12 +292,12 @@ spec:
       name: winweb01-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: winweb01-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: winweb01
+        # snapshot:
+        #   name: winweb01-volumesnapshot
         #   namespace: default
+        pvc:
+          name: winweb01
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/winweb01.qcow2
       storage:
@@ -412,12 +412,12 @@ spec:
       name: winweb02-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: winweb02-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: winweb02
+        # snapshot:
+        #   name: winweb02-volumesnapshot
         #   namespace: default
+        pvc:
+          name: winweb02
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/winweb02.qcow2
       storage:
