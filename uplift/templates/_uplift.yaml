@@ -206,7 +206,7 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: database
+      name: database-user{{ .user_index }}
     spec:
       source:
         snapshot:
@@ -270,7 +270,7 @@ spec:
       terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
-          name: database
+          name: database-user{{ .user_index }}
         name: rootdisk
 ---
 apiVersion: kubevirt.io/v1
@@ -290,7 +290,7 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: winweb01
+      name: winweb01-user{{ .user_index }}
     spec:
       source:
         snapshot:
@@ -390,7 +390,7 @@ spec:
       terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
-          name: winweb01
+          name: winweb01-user{{ .user_index }}
         name: rootdisk
 ---
 apiVersion: kubevirt.io/v1
@@ -410,7 +410,7 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: winweb02
+      name: winweb02-user{{ .user_index }}
     spec:
       source:
         snapshot:
@@ -509,7 +509,7 @@ spec:
       terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
-          name: winweb02
+          name: winweb02-user{{ .user_index }}
         name: rootdisk
 
 # ---
