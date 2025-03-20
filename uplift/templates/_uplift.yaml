@@ -266,7 +266,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
           name: database-user{{ .user_index }}
@@ -326,7 +326,6 @@ spec:
         version: v1
 {{- end }}
     spec:
-      terminationGracePeriodSeconds: 0
       domain:
         clock:
           timer:
@@ -386,7 +385,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
           name: winweb01-user{{ .user_index }}
@@ -505,7 +504,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
           name: winweb02-user{{ .user_index }}
