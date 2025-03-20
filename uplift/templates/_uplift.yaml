@@ -220,8 +220,8 @@ spec:
         resources:
           requests:
             storage: 16Gi
-  # runStrategy: {{ .Values.vms_run_strategy }}
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
       annotations:
@@ -304,8 +304,8 @@ spec:
         resources:
           requests:
             storage: 90Gi
-  # runStrategy: {{ .Values.vms_run_strategy }}
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
@@ -423,8 +423,8 @@ spec:
         resources:
           requests:
             storage: 90Gi
-  # runStrategy: {{ .Values.vms_run_strategy }}
-  running: {{ .Values.vms_start_vms }}
+  runStrategy: {{ .Values.vms_run_strategy }}
+  # running: {{ .Values.vms_start_vms }}
   template:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
