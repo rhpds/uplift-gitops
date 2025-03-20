@@ -266,7 +266,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 180
+      terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
           name: database
@@ -326,6 +326,7 @@ spec:
         version: v1
 {{- end }}
     spec:
+      terminationGracePeriodSeconds: 0
       domain:
         clock:
           timer:
@@ -385,7 +386,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 3600
+      terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
           name: winweb01
@@ -504,7 +505,7 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 3600
+      terminationGracePeriodSeconds: 0
       volumes:
       - dataVolume:
           name: winweb02
