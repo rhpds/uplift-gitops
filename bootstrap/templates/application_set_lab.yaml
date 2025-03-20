@@ -77,7 +77,7 @@ spec:
       syncPolicy:
         # automated: {}
         syncOptions:
-          - ApplyOutOfSyncOnly=true # best with many resources under management
+        #  - ApplyOutOfSyncOnly=true # best with many resources under management
           - CreateNamespace=true
         managedNamespaceMetadata:
           labels:
