@@ -57,6 +57,7 @@ spec:
         jsonPointers:
         - /spec/template/spec/domain/cpu/cores
         - /spec/running
+        - /spec/runStrategy
         - /spec/template/metadata/labels
         - /spec/template/metadata/annotations
       source:
