@@ -1,0 +1,17 @@
+---
+apiVersion: forklift.konveyor.io/v1beta1
+kind: ForkliftController
+metadata:
+  annotations:
+    # argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: forklift-controller
+  namespace: openshift-mtv
+spec:
+  controller_container_limits_cpu: 500m
+  controller_container_limits_memory: 800m
+  feature_ui_plugin: "true"
+  feature_validation: "true"
+  feature_volume_populator: "true"
+  inventory_container_limits_memory: 4Gi
+  inventory_container_requests_memory: 2Gi
