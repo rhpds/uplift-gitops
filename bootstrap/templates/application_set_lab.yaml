@@ -38,10 +38,6 @@ spec:
             path: showroom
             dependsOn: uplift
             namespace: "openshift-gitops"
-          # - app: windowsnetworking
-          #   path: windowsnetworking
-          #   dependsOn: ossm-cp
-          #   namespace: "openshift-gitops"
   template:
     metadata:
       name: {{`'{{.app}}'`}}
@@ -79,9 +75,7 @@ spec:
         server: https://kubernetes.default.svc
         namespace: {{`'{{.namespace}}'`}}
       syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+        automated: {}
         syncOptions:
           - ApplyOutOfSyncOnly=true # best with many resources under management
           - CreateNamespace=true

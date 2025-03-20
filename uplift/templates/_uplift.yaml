@@ -311,7 +311,7 @@ spec:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
+        # sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
@@ -431,7 +431,7 @@ spec:
     metadata:
 {{- if eq .Values.ossm_vms_sidecar_inject "true" }}
       annotations:
-        sidecar.istio.io/inject: "true"
+        # sidecar.istio.io/inject: "true"
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           proxyMetadata:
