@@ -194,7 +194,6 @@ kind: VirtualMachine
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
-    argocd.argoproj.io/ignore-healthcheck: "true"
     app.openshift.io/connects-to: '[{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb02"},{"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","name":"winweb01"}]'
   labels:
     app: database
@@ -206,15 +205,15 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: database
+      name: database-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: database-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: database
+        # snapshot:
+        #   name: database-volumesnapshot
         #   namespace: default
+        pvc:
+          name: database
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/database.qcow2
       storage:
@@ -267,10 +266,10 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
-          name: database
+          name: database-user{{ .user_index }}
         name: rootdisk
 ---
 apiVersion: kubevirt.io/v1
@@ -290,15 +289,15 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: winweb01
+      name: winweb01-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: winweb01-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: winweb01
+        # snapshot:
+        #   name: winweb01-volumesnapshot
         #   namespace: default
+        pvc:
+          name: winweb01
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/winweb01.qcow2
       storage:
@@ -327,7 +326,6 @@ spec:
         version: v1
 {{- end }}
     spec:
-      terminationGracePeriodSeconds: 0
       domain:
         clock:
           timer:
@@ -387,10 +385,10 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
-          name: winweb01
+          name: winweb01-user{{ .user_index }}
         name: rootdisk
 ---
 apiVersion: kubevirt.io/v1
@@ -410,15 +408,15 @@ spec:
   - apiVersion: cdi.kubevirt.io/v1beta1
     kind: DataVolume
     metadata:
-      name: winweb02
+      name: winweb02-user{{ .user_index }}
     spec:
       source:
-        snapshot:
-          name: winweb02-volumesnapshot
-          namespace: default
-        # pvc:
-        #   name: winweb02
+        # snapshot:
+        #   name: winweb02-volumesnapshot
         #   namespace: default
+        pvc:
+          name: winweb02
+          namespace: default
         # http:
         #   url: {{ .Values.vms_image_url }}/winweb02.qcow2
       storage:
@@ -506,10 +504,10 @@ spec:
       networks:
       - name: default
         pod: {}
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 3600
       volumes:
       - dataVolume:
-          name: winweb02
+          name: winweb02-user{{ .user_index }}
         name: rootdisk
 
 # ---
