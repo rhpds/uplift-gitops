@@ -75,7 +75,7 @@ spec:
         server: https://kubernetes.default.svc
         namespace: {{`'{{.namespace}}'`}}
       syncPolicy:
-        # automated: {}
+        automated: {}
         syncOptions:
         #  - ApplyOutOfSyncOnly=true # best with many resources under management
           - CreateNamespace=true
