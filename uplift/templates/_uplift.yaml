@@ -263,7 +263,7 @@ spec:
         resources:
           requests:
             memory: 2Gi
-      evictionStrategy: LiveMigrate
+      evictionStrategy: {{ .Values.vms_eviction_strategy }}
       networks:
       - name: default
         pod: {}
@@ -383,7 +383,7 @@ spec:
         resources:
           requests:
             memory: 1Gi
-      evictionStrategy: LiveMigrate
+      evictionStrategy: {{ .Values.vms_eviction_strategy }}
       networks:
       - name: default
         pod: {}
@@ -502,7 +502,7 @@ spec:
         resources:
           requests:
             memory: 1Gi
-      evictionStrategy: LiveMigrate
+      evictionStrategy: {{ .Values.vms_eviction_strategy }}
       networks:
       - name: default
         pod: {}
